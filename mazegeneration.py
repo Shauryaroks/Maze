@@ -4,6 +4,7 @@ import pygame
 import time
 import timeit
 
+#is_branch is checking if there are multiple paths from a point and if yes, then which directions can we go from that node..
 def isbranch(x,y):
     global path_stack
     global branch_stack
@@ -18,7 +19,7 @@ def isbranch(x,y):
         temp_stack.append("u")
     if [x,y,temp_stack] not in branch_stack: branch_stack.append([x,y,temp_stack])
     
-
+#this function is for BFS still not complete but is intended to find next parts from a certain node
 def findnode(x,y,queue):
     array[y][x] ==2
     global retrace
@@ -47,7 +48,7 @@ def findnode(x,y,queue):
 
 
 
-
+#used in DFS to move further
 def traverse(x,y):
     global path_stack
     global branch_stack
@@ -81,7 +82,7 @@ def traverse(x,y):
                 
                  
             
-
+#to chceck is node is visited or not
 def is_visited(x,y):
     return(array[y][x]==2)
 
@@ -91,12 +92,13 @@ def is_visited(x,y):
 
 
 
-#prims algorithm
+#prims algorithm a modified verssion of prims algorithm to generate a solvable maze..
 #generating matrix
 def matrix(n):
     matrix = numpy.zeros((n,n))
     return matrix
 
+#to find frontier values that are generated in prims
 def addfront(x,y):
     global frontier
     if 0<=(x+2)<n and array[x+2][y]==0 and ((x+2,y) not in frontier):
@@ -108,6 +110,7 @@ def addfront(x,y):
     if 0<=(y+2)<n and array[x][y+2]==0 and ((x,y+2) not in frontier):
         frontier.append((x,y+2))
 
+#to conncet the nodes that are being added to the path.
 def connect(x,y):
     array[x][y] = 1
     frontier.remove((x,y)) 
@@ -132,7 +135,7 @@ def connect(x,y):
             array[x][y+1] = 1
     
 
-
+#modified version of prims algorithm to generate a maze
 def prims(array):
     #first we select our starting block which is array[0][0]
     global frontier 
@@ -169,7 +172,7 @@ print(array)
 solution = numpy.copy(array)
 #now creating GUI
 
-
+#pygames to showcase the maze without the solution
 def redraw(window):
     global size
     global array
@@ -185,7 +188,8 @@ def redraw(window):
     grid(window,size,n)
     
     pygame.display.update()   
-    
+
+#pygames window to show solved maze
 def redraw_solved(window):
     global size
     global array
@@ -205,7 +209,7 @@ def redraw_solved(window):
     pygame.display.update()   
 
 
-
+#incase i wanna add start and end text in maze i can use this in pyggames
 def displaytext(text,x,y):
     global dist
  #   img = font.render(text,True,(0,0,0))
@@ -213,7 +217,7 @@ def displaytext(text,x,y):
 
 
 
-
+#to make a grid in pygames
 def grid(window,size,rows):
     global dist
     dist = size /rows
@@ -299,7 +303,7 @@ array = solution
 print(path_stack)
 print(s-e)
 
-
+#time complexity for some reason generating negetive values and positive values need to figure out how to effectively measure time taken to execute
 
 '''
 global endy
@@ -340,6 +344,8 @@ print(visited)
 
 
 '''
+#loop to run the GUI
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
